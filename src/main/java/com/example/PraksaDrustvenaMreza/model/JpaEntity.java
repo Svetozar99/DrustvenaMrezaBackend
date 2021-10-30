@@ -3,7 +3,7 @@ package com.example.PraksaDrustvenaMreza.model;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -18,5 +18,5 @@ public abstract class JpaEntity implements Serializable {
     private Long id;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }
