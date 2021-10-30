@@ -16,6 +16,13 @@ public class UserService implements UserServiceInterface {
     private UserRepository userRepository;
 
     @Override
+    public UserDTO getOne(Long id) {
+        User u = userRepository.findOneById(id);
+
+        return new UserDTO(u);
+    }
+
+    @Override
     public UserDTO save(UserDTO u) {
 
         User user = new User();
@@ -29,5 +36,25 @@ public class UserService implements UserServiceInterface {
         user = userRepository.save(user);
 
         return new UserDTO(user);
+    }
+
+    @Override
+    public UserDTO update(UserDTO u, Long id) {
+        User user = userRepository.findOneById(id);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setFirstName(u.getFirstName());
+        user.setLastName(u.getLastName());
+        user.setUserName(u.getUserName());
+        user.setPassword(u.getPassword());
+        user.setRepeatedPassword(u.getRepeatedPassword());
+
+        user = userRepository.save(user);
+
+        return new UserDTO(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }
