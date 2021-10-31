@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import com.example.PraksaDrustvenaMreza.model.*;
@@ -16,6 +17,9 @@ public class UserService implements UserServiceInterface {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO getOne(Long id) {
@@ -40,8 +44,8 @@ public class UserService implements UserServiceInterface {
         user.setLastName(u.getLastName());
         user.setUserName(u.getUserName());
         if(u.getPassword().equals(u.getRepeatedPassword())){
-            user.setPassword(u.getPassword());
-            user.setRepeatedPassword(u.getRepeatedPassword());
+            user.setPassword(passwordEncoder.encode(u.getPassword()));
+            user.setRepeatedPassword(passwordEncoder.encode(u.getRepeatedPassword()));
         }else{
             throw new IOException("Password not valid");
         }
