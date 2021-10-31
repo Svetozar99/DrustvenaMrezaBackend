@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.CommentServiceInterface;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping(value = "api/comment")
 public class CommentController {
@@ -18,19 +20,19 @@ public class CommentController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<CommentDTO> addComment(@RequestBody AddCommentDTO addCommentDTO) {
+    public ResponseEntity<CommentDTO> addComment(@RequestBody AddCommentDTO addCommentDTO, Principal principal) {
         try {
-            CommentDTO c = commentService.save(addCommentDTO, "brboric99");
+            CommentDTO c = commentService.save(addCommentDTO, principal.getName());
             return new ResponseEntity<>(c, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PatchMapping(value = "{id}")
-    public ResponseEntity<CommentDTO> updateComments(@PathVariable("id") Long id, @RequestBody CommentDTO commentDTO){
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<CommentDTO> updateComments(@PathVariable("id") Long id, @RequestBody CommentDTO commentDTO, Principal principal){
         CommentDTO co = commentService.getOne(id);
-        UserDTO u = userService.getOneByUserName("brboric99");
+        UserDTO u = userService.getOneByUserName(principal.getName());
         try{
             if(u.getUserName().equals(co.getUserDTO().getUserName())) {
                 CommentDTO c = commentService.update(commentDTO, id);
@@ -43,10 +45,10 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id, Principal principal){
         CommentDTO c = commentService.getOne(id);
-        UserDTO u = userService.getOneByUserName("brboric99");
+        UserDTO u = userService.getOneByUserName(principal.getName());
         try{
             if(u.getUserName().equals(c.getUserDTO().getUserName())) {
                 commentService.delete(id);

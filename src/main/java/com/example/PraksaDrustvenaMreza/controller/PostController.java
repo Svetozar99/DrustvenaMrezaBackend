@@ -1,5 +1,6 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<PostDTO> getOnePost(@PathVariable("id") Long id){
         try{
             PostDTO p = postService.getOne(id);
@@ -30,10 +31,10 @@ public class PostController {
         }
     }
 
-    @GetMapping(value = "home")
-    public ResponseEntity<List<PostDTO>> getPosts(){
+    @GetMapping(value = "/home")
+    public ResponseEntity<List<PostDTO>> getPosts(Principal principal){
         try{
-            List<PostDTO> p = postService.getHomePage("brboric99");
+            List<PostDTO> p = postService.getHomePage(principal.getName());
             return new ResponseEntity<>(p, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -41,19 +42,19 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> addPost(@RequestBody AddPostDTO postDTO){
+    public ResponseEntity<PostDTO> addPost(@RequestBody AddPostDTO postDTO, Principal principal){
         try {
-            PostDTO u = postService.save(postDTO,"brboric93");
+            PostDTO u = postService.save(postDTO,principal.getName());
             return new ResponseEntity<>(u, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PatchMapping(value = "{id}")
-    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO postDTO){
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO postDTO, Principal principal){
         PostDTO p = postService.getOne(id);
-        UserDTO us = userService.getOneByUserName("brboric99");
+        UserDTO us = userService.getOneByUserName(principal.getName());
         try{
             if(us.getUserName().equals(p.getUserDTO().getUserName())){
                 PostDTO u = postService.update(postDTO, id);
@@ -66,10 +67,10 @@ public class PostController {
         }
     }
 
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id, Principal principal){
         PostDTO p = postService.getOne(id);
-        UserDTO u = userService.getOneByUserName("brboric99");
+        UserDTO u = userService.getOneByUserName(principal.getName());
         try{
             if(u.getUserName().equals(p.getUserDTO().getUserName())){
                 postService.delete(id);

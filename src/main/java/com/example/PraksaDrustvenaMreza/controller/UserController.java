@@ -6,6 +6,8 @@ import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping(value = "api/user")
 public class UserController {
@@ -24,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/profile")
-    public ResponseEntity<UserDTO> profile(){
-        UserDTO userDTO = userService.getOneByUserName("brboric99");
+    public ResponseEntity<UserDTO> profile(Principal principal){
+        UserDTO userDTO = userService.getOneByUserName(principal.getName());
         try{
             UserDTO u = userService.getOne(userDTO.getId());
             return new ResponseEntity<>(u, HttpStatus.OK);
@@ -35,8 +37,8 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
-        UserDTO us = userService.getOneByUserName("brboric99");
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, Principal principal){
+        UserDTO us = userService.getOneByUserName(principal.getName());
         try{
             UserDTO u = userService.update(userDTO, us.getId());
             return new ResponseEntity<>(u, HttpStatus.OK);

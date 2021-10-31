@@ -1,5 +1,6 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.example.PraksaDrustvenaMreza.model.User;
@@ -21,9 +22,9 @@ public class FollowingController {
     private UserService userService;
 
     @GetMapping(value = "/followees")
-    public ResponseEntity<List<FollowingDTO>> getFollowees() {
+    public ResponseEntity<List<FollowingDTO>> getFollowees(Principal principal) {
         try {
-            List<FollowingDTO> f = followingServiceInterface.followees("brboric99");
+            List<FollowingDTO> f = followingServiceInterface.followees(principal.getName());
             return new ResponseEntity<>(f, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -31,19 +32,19 @@ public class FollowingController {
     }
 
     @GetMapping(value = "/followers")
-    public ResponseEntity<List<FollowingDTO>> getFollowers() {
+    public ResponseEntity<List<FollowingDTO>> getFollowers(Principal principal) {
         try {
-            List<FollowingDTO> f = followingServiceInterface.followers("brboric99");
+            List<FollowingDTO> f = followingServiceInterface.followers(principal.getName());
             return new ResponseEntity<>(f, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deleteFollowing(@PathVariable("id") Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteFollowing(@PathVariable("id") Long id, Principal principal){
         FollowingDTO f = followingServiceInterface.findOne(id);
-        UserDTO u = userService.getOneByUserName("brboric99");
+        UserDTO u = userService.getOneByUserName(principal.getName());
         try{
             if(u.getUserName().equals(f.getSender().getUserName())) {
                 followingServiceInterface.delete(id);
