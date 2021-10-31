@@ -1,11 +1,14 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
 import java.util.List;
+
+
 import org.springframework.http.*;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import org.springframework.web.bind.annotation.*;
-import com.example.PraksaDrustvenaMreza.service.impl.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.PraksaDrustvenaMreza.service.impl.PostService;
+import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
 @RestController
 @RequestMapping(value = "api/post")
@@ -13,6 +16,9 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = "{id}")
     public ResponseEntity<PostDTO> getOnePost(@PathVariable("id") Long id){
@@ -24,10 +30,10 @@ public class PostController {
         }
     }
 
-    @GetMapping(value = "home/{userName}")
-    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("userName") String userName){
+    @GetMapping(value = "home")
+    public ResponseEntity<List<PostDTO>> getPosts(){
         try{
-            List<PostDTO> p = postService.getHomePage(userName);
+            List<PostDTO> p = postService.getHomePage("brboric99");
             return new ResponseEntity<>(p, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -46,9 +52,15 @@ public class PostController {
 
     @PatchMapping(value = "{id}")
     public ResponseEntity<PostDTO> updatePost(@PathVariable("id") Long id, @RequestBody PostDTO postDTO){
+        PostDTO p = postService.getOne(id);
+        UserDTO us = userService.getOneByUserName("brboric99");
         try{
-            PostDTO u = postService.update(postDTO, id);
-            return new ResponseEntity<>(u, HttpStatus.OK);
+            if(us.getUserName().equals(p.getUserDTO().getUserName())){
+                PostDTO u = postService.update(postDTO, id);
+                return new ResponseEntity<>(u, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,9 +68,15 @@ public class PostController {
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id){
+        PostDTO p = postService.getOne(id);
+        UserDTO u = userService.getOneByUserName("brboric99");
         try{
-            postService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(u.getUserName().equals(p.getUserDTO().getUserName())){
+                postService.delete(id);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

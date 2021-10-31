@@ -13,7 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> getOneUser(@PathVariable("id") Long id){
         try{
             UserDTO u = userService.getOne(id);
@@ -23,20 +23,33 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserDTO userDTO){
+    @GetMapping(value = "/profile")
+    public ResponseEntity<UserDTO> profile(){
+        UserDTO userDTO = userService.getOneByUserName("brboric99");
         try{
-            UserDTO u = userService.update(userDTO, id);
+            UserDTO u = userService.getOne(userDTO.getId());
             return new ResponseEntity<>(u, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
+    @PatchMapping
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
+        UserDTO us = userService.getOneByUserName("brboric99");
         try{
-            userService.delete(id);
+            UserDTO u = userService.update(userDTO, us.getId());
+            return new ResponseEntity<>(u, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(){
+        UserDTO u = userService.getOneByUserName("a");
+        try{
+            userService.delete(u.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

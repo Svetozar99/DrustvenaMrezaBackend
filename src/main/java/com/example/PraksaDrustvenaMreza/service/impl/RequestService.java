@@ -21,6 +21,13 @@ public class RequestService implements RequestServiceInterface {
     private UserRepository userRepository;
 
     @Override
+    public RequestDTO findOne(Long id) {
+        RequestForFollowing r = requestRepository.findOneById(id);
+
+        return new RequestDTO(r);
+    }
+
+    @Override
     public List<RequestDTO> getRequests(String userName) {
         List<RequestForFollowing> requests = requestRepository.findAllByReceiver_userName("brboric93");
 

@@ -1,6 +1,9 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
 import java.util.List;
+
+import com.example.PraksaDrustvenaMreza.model.User;
+import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 import org.springframework.http.*;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +17,23 @@ public class FollowingController {
     @Autowired
     private FollowingServiceInterface followingServiceInterface;
 
-    @GetMapping(value = "followees/{userName}")
-    public ResponseEntity<List<FollowingDTO>> getFollowees(@PathVariable("userName") String userName) {
+    @Autowired
+    private UserService userService;
+
+    @GetMapping(value = "/followees")
+    public ResponseEntity<List<FollowingDTO>> getFollowees() {
         try {
-            List<FollowingDTO> f = followingServiceInterface.followees(userName);
+            List<FollowingDTO> f = followingServiceInterface.followees("brboric99");
             return new ResponseEntity<>(f, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping(value = "followers/{userName}")
-    public ResponseEntity<List<FollowingDTO>> getFollowers(@PathVariable("userName") String userName) {
+    @GetMapping(value = "/followers")
+    public ResponseEntity<List<FollowingDTO>> getFollowers() {
         try {
-            List<FollowingDTO> f = followingServiceInterface.followers(userName);
+            List<FollowingDTO> f = followingServiceInterface.followers("brboric99");
             return new ResponseEntity<>(f, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -36,9 +42,15 @@ public class FollowingController {
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Void> deleteFollowing(@PathVariable("id") Long id){
+        FollowingDTO f = followingServiceInterface.findOne(id);
+        UserDTO u = userService.getOneByUserName("brboric99");
         try{
-            followingServiceInterface.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(u.getUserName().equals(f.getSender().getUserName())) {
+                followingServiceInterface.delete(id);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

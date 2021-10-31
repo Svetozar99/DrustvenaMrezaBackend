@@ -1,7 +1,9 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
 import com.example.PraksaDrustvenaMreza.dtos.FollowingDTO;
+import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
 import com.example.PraksaDrustvenaMreza.service.FollowingServiceInterface;
+import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.example.PraksaDrustvenaMreza.dtos.RequestDTO;
@@ -19,6 +21,9 @@ public class RequestController {
 
     @Autowired
     private FollowingServiceInterface followingServiceInterface;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<RequestDTO>> getRequests() {
@@ -52,9 +57,15 @@ public class RequestController {
 
     @DeleteMapping(value = "/reject/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable("id") Long id){
+        RequestDTO r = requestService.findOne(id);
+        UserDTO u = userService.getOneByUserName("brboric99");
         try{
-            requestService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(u.getUserName().equals(r.getSender().getUserName())) {
+                requestService.delete(id);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

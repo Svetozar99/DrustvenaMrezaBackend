@@ -6,7 +6,7 @@ public interface CommentServiceInterface {
 
     public CommentDTO getOne(Long id);
 
-    public CommentDTO save(AddCommentDTO commentDTO);
+    public CommentDTO save(AddCommentDTO commentDTO, String userName);
 
     public CommentDTO update(CommentDTO commentDTO, Long id);
 

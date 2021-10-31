@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RequestServiceInterface {
 
+    public RequestDTO findOne(Long id);
+
     public List<RequestDTO> getRequests(String userName);
 
     public RequestDTO save(String userNameReceiver, String userNameSender);

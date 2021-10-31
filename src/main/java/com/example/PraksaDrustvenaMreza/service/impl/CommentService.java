@@ -28,7 +28,7 @@ public class CommentService implements CommentServiceInterface {
     }
 
     @Override
-    public CommentDTO save(AddCommentDTO commentDTO) {
+    public CommentDTO save(AddCommentDTO commentDTO, String userName) {
         Comment comment = new Comment();
         Comment parentComment;
         if(commentDTO.getParentComment() != null)
@@ -36,7 +36,7 @@ public class CommentService implements CommentServiceInterface {
         else
             parentComment = null;
         Post post = postRepository.findOneById(commentDTO.getPostId());
-        User user = userRepository.findOneByUserName("brboric99");//dok ne napravim securitys
+        User user = userRepository.findOneByUserName(userName);
 
 
         comment.setBodyComment(commentDTO.getBodyComment());

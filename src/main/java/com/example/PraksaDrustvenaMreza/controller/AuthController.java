@@ -6,6 +6,9 @@ import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
+import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RestController
 @RequestMapping(value = "api/auth")
 public class AuthController {
@@ -14,12 +17,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
         try {
             UserDTO u = userService.save(userDTO);
             return new ResponseEntity<>(u, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (IOException ex){
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        } catch (SQLIntegrityConstraintViolationException ex){
+            return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
 }
