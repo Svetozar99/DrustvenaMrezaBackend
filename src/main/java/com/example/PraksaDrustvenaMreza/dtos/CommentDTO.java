@@ -1,7 +1,7 @@
 package com.example.PraksaDrustvenaMreza.dtos;
 
-import com.example.PraksaDrustvenaMreza.model.Comment;
 import lombok.*;
+import com.example.PraksaDrustvenaMreza.model.Comment;
 
 @NoArgsConstructor
 @AllArgsConstructor

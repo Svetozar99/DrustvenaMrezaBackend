@@ -1,12 +1,10 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
-import com.example.PraksaDrustvenaMreza.dtos.AddPostDTO;
-import com.example.PraksaDrustvenaMreza.dtos.PostDTO;
+import org.springframework.http.*;
+import com.example.PraksaDrustvenaMreza.dtos.*;
+import org.springframework.web.bind.annotation.*;
 import com.example.PraksaDrustvenaMreza.service.impl.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/post")

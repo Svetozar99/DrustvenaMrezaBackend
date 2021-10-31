@@ -1,13 +1,12 @@
 package com.example.PraksaDrustvenaMreza.service.impl;
 
-import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
-import com.example.PraksaDrustvenaMreza.model.User;
-import com.example.PraksaDrustvenaMreza.repository.UserRepository;
-import com.example.PraksaDrustvenaMreza.service.UserServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
+import com.example.PraksaDrustvenaMreza.dtos.*;
+import com.example.PraksaDrustvenaMreza.model.*;
+import com.example.PraksaDrustvenaMreza.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.PraksaDrustvenaMreza.service.UserServiceInterface;
 
 @Service
 public class UserService implements UserServiceInterface {

@@ -1,12 +1,10 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
-import com.example.PraksaDrustvenaMreza.dtos.AddCommentDTO;
-import com.example.PraksaDrustvenaMreza.dtos.CommentDTO;
-import com.example.PraksaDrustvenaMreza.service.CommentServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import com.example.PraksaDrustvenaMreza.dtos.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.PraksaDrustvenaMreza.service.CommentServiceInterface;
 
 @RestController
 @RequestMapping(value = "api/comment")

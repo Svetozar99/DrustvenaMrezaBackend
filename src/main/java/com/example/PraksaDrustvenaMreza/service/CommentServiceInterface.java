@@ -1,7 +1,6 @@
 package com.example.PraksaDrustvenaMreza.service;
 
-import com.example.PraksaDrustvenaMreza.dtos.AddCommentDTO;
-import com.example.PraksaDrustvenaMreza.dtos.CommentDTO;
+import com.example.PraksaDrustvenaMreza.dtos.*;
 
 public interface CommentServiceInterface {
 

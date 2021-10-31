@@ -1,8 +1,8 @@
 package com.example.PraksaDrustvenaMreza.model;
 
 import lombok.*;
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name="post")

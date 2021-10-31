@@ -1,15 +1,15 @@
 package com.example.PraksaDrustvenaMreza.service.impl;
 
-import com.example.PraksaDrustvenaMreza.dtos.RequestDTO;
-import com.example.PraksaDrustvenaMreza.model.RequestForFollowing;
-import com.example.PraksaDrustvenaMreza.model.User;
-import com.example.PraksaDrustvenaMreza.repository.RequestRepository;
-import com.example.PraksaDrustvenaMreza.repository.UserRepository;
-import com.example.PraksaDrustvenaMreza.service.RequestServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import com.example.PraksaDrustvenaMreza.dtos.*;
+import com.example.PraksaDrustvenaMreza.model.*;
+import com.example.PraksaDrustvenaMreza.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.PraksaDrustvenaMreza.service.RequestServiceInterface;
 
 @Service
 public class RequestService implements RequestServiceInterface {
@@ -21,10 +21,14 @@ public class RequestService implements RequestServiceInterface {
     private UserRepository userRepository;
 
     @Override
-    public RequestDTO getOne(Long id) {
-        RequestForFollowing requestForFollowing = requestRepository.findOneById(id);
+    public List<RequestDTO> getRequests(String userName) {
+        List<RequestForFollowing> requests = requestRepository.findAllByReceiver_userName("brboric93");
 
-        return new RequestDTO(requestForFollowing);
+        List<RequestDTO> requestDTOS = new ArrayList<>();
+        for (RequestForFollowing r: requests){
+            requestDTOS.add(new RequestDTO(r));
+        }
+        return requestDTOS;
     }
 
     @Override

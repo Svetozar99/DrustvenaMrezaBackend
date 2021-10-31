@@ -1,7 +1,6 @@
 package com.example.PraksaDrustvenaMreza.service;
 
-import com.example.PraksaDrustvenaMreza.dtos.AddPostDTO;
-import com.example.PraksaDrustvenaMreza.dtos.PostDTO;
+import com.example.PraksaDrustvenaMreza.dtos.*;
 
 public interface PostServiceInterface {
 

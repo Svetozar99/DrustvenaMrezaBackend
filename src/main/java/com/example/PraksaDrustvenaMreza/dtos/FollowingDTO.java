@@ -2,13 +2,13 @@ package com.example.PraksaDrustvenaMreza.dtos;
 
 import lombok.*;
 import java.time.LocalDateTime;
-import com.example.PraksaDrustvenaMreza.model.RequestForFollowing;
+import com.example.PraksaDrustvenaMreza.model.Following;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RequestDTO {
+public class FollowingDTO {
 
     private Long id;
 
@@ -18,7 +18,7 @@ public class RequestDTO {
 
     private UserDTO receiver;
 
-    public RequestDTO(RequestForFollowing r){
-        this(r.getId(), r.getCreatedAt(), new UserDTO(r.getSender()), new UserDTO(r.getReceiver()));
+    public FollowingDTO(Following f){
+        this(f.getId(), f.getCreatedAt(), new UserDTO(f.getFollowee()), new UserDTO(f.getFollower()));
     }
 }

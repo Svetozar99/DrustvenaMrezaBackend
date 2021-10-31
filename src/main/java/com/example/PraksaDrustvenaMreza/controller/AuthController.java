@@ -1,14 +1,10 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
-import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
 @RestController
 @RequestMapping(value = "api/auth")

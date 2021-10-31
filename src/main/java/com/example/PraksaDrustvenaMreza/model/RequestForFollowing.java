@@ -1,4 +1,5 @@
 package com.example.PraksaDrustvenaMreza.model;
+
 import lombok.*;
 import javax.persistence.*;
 

@@ -1,13 +1,14 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
-import com.example.PraksaDrustvenaMreza.dtos.AddCommentDTO;
-import com.example.PraksaDrustvenaMreza.dtos.CommentDTO;
-import com.example.PraksaDrustvenaMreza.dtos.RequestDTO;
-import com.example.PraksaDrustvenaMreza.service.RequestServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.PraksaDrustvenaMreza.dtos.FollowingDTO;
+import com.example.PraksaDrustvenaMreza.service.FollowingServiceInterface;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import com.example.PraksaDrustvenaMreza.dtos.RequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.PraksaDrustvenaMreza.service.RequestServiceInterface;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/request")
@@ -16,10 +17,13 @@ public class RequestController {
     @Autowired
     private RequestServiceInterface requestService;
 
-    @GetMapping(value = "{id}")
-    public ResponseEntity<RequestDTO> getOneComment(@PathVariable("id") Long id) {
+    @Autowired
+    private FollowingServiceInterface followingServiceInterface;
+
+    @GetMapping
+    public ResponseEntity<List<RequestDTO>> getRequests() {
         try {
-            RequestDTO r = requestService.getOne(id);
+            List<RequestDTO> r = requestService.getRequests("brboric93");
             return new ResponseEntity<>(r, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -36,7 +40,17 @@ public class RequestController {
         }
     }
 
-    @DeleteMapping(value = "{id}")
+    @PostMapping(value = "accept/{sender}")
+    public ResponseEntity<FollowingDTO> acceptRequest(@PathVariable("sender") String sender) {
+        try {
+            FollowingDTO r = followingServiceInterface.save(sender);
+            return new ResponseEntity<>(r, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/reject/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable("id") Long id){
         try{
             requestService.delete(id);

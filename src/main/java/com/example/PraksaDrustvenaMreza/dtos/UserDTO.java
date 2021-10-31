@@ -1,8 +1,8 @@
 package com.example.PraksaDrustvenaMreza.dtos;
 
-import com.example.PraksaDrustvenaMreza.model.User;
 import lombok.*;
 import java.time.LocalDateTime;
+import com.example.PraksaDrustvenaMreza.model.User;
 
 @NoArgsConstructor
 @AllArgsConstructor
