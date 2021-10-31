@@ -1,6 +1,9 @@
 package com.example.PraksaDrustvenaMreza.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import com.example.PraksaDrustvenaMreza.model.*;
@@ -21,6 +24,28 @@ public class FollowingService implements FollowingServiceInterface {
     private RequestRepository requestRepository;
 
     @Override
+    public List<FollowingDTO> followees(String userName) {
+        List<Following> followings = followingRepository.findByFollowee_userName(userName);
+
+        List<FollowingDTO> followingDTOS = new ArrayList<>();
+        for(Following f: followings){
+            followingDTOS.add(new FollowingDTO(f));
+        }
+        return followingDTOS;
+    }
+
+    @Override
+    public List<FollowingDTO> followers(String userName) {
+        List<Following> followings = followingRepository.findOneByFollower_userName(userName);
+
+        List<FollowingDTO> followingDTOS = new ArrayList<>();
+        for(Following f: followings){
+            followingDTOS.add(new FollowingDTO(f));
+        }
+        return followingDTOS;
+    }
+
+    @Override
     public FollowingDTO findOne(Long id) {
         Following following = followingRepository.findOneById(id);
 
@@ -28,25 +53,28 @@ public class FollowingService implements FollowingServiceInterface {
     }
 
     @Override
-    public FollowingDTO save(String userNameFollowee) {
+    public FollowingDTO save(String userNameFollower, String userNameFollowee) {
+
+        RequestForFollowing request = requestRepository.findOneByReceiver_userNameAndSender_userName(userNameFollower, userNameFollowee);
+
+
         Following following = new Following();
 
         User followee = userRepository.findOneByUserName(userNameFollowee);
-        User follower = userRepository.findOneByUserName("brboric93");
+        User follower = userRepository.findOneByUserName(userNameFollower);
 
         following.setCreatedAt(LocalDateTime.now());
         following.setFollowee(followee);
         following.setFollower(follower);
 
         following = followingRepository.save(following);
-        requestRepository.deleteById(follower.getId());
+        requestRepository.deleteById(request.getId());
 
         return new FollowingDTO(following);
     }
 
     @Override
-    public void delete(String userNameFollower) {
-        Following f = followingRepository.findOneByFollower_userName(userNameFollower);
-        followingRepository.deleteById(f.getId());
+    public void delete(Long id) {
+        followingRepository.deleteById(id);
     }
 }

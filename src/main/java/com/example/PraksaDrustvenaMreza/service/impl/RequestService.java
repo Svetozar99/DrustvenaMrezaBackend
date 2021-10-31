@@ -32,10 +32,10 @@ public class RequestService implements RequestServiceInterface {
     }
 
     @Override
-    public RequestDTO save(String userNameReceiver) {
+    public RequestDTO save(String userNameReceiver, String userNameSender) {
         RequestForFollowing requestForFollowing = new RequestForFollowing();
 
-        User sender = userRepository.findOneByUserName("brboric99");
+        User sender = userRepository.findOneByUserName(userNameSender);
         User receiver = userRepository.findOneByUserName(userNameReceiver);
 
         requestForFollowing.setCreatedAt(LocalDateTime.now());

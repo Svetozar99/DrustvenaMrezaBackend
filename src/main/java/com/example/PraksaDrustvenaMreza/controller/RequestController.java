@@ -33,7 +33,7 @@ public class RequestController {
     @PostMapping(value = "/{receiver}")
     public ResponseEntity<RequestDTO> sendRequest(@PathVariable("receiver") String receiver) {
         try {
-            RequestDTO r = requestService.save(receiver);
+            RequestDTO r = requestService.save(receiver, "brboric99");
             return new ResponseEntity<>(r, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,7 +43,7 @@ public class RequestController {
     @PostMapping(value = "accept/{sender}")
     public ResponseEntity<FollowingDTO> acceptRequest(@PathVariable("sender") String sender) {
         try {
-            FollowingDTO r = followingServiceInterface.save(sender);
+            FollowingDTO r = followingServiceInterface.save("brboric93", sender);
             return new ResponseEntity<>(r, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
