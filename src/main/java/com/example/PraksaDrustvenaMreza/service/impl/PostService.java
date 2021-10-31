@@ -1,6 +1,9 @@
 package com.example.PraksaDrustvenaMreza.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import com.example.PraksaDrustvenaMreza.model.*;
@@ -25,9 +28,9 @@ public class PostService implements PostServiceInterface {
     }
 
     @Override
-    public PostDTO save(AddPostDTO DTO) {
+    public PostDTO save(AddPostDTO DTO, String userName) {
         Post p = new Post();
-        User u = userRepository.findOneByUserName("brboric99");//dok ne uradim security
+        User u = userRepository.findOneByUserName(userName);
         p.setBody(DTO.getBody());
         p.setUser(u);
         p.setCreatedAt(LocalDateTime.now());
@@ -49,5 +52,16 @@ public class PostService implements PostServiceInterface {
     @Override
     public void delete(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PostDTO> getHomePage(String userName) {
+        List<Post> posts = postRepository.findHomePage(userName);
+
+        List<PostDTO> postDTOS = new ArrayList<>();
+        for(Post p: posts){
+            postDTOS.add(new PostDTO(p));
+        }
+        return postDTOS;
     }
 }

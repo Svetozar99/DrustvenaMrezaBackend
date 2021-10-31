@@ -1,5 +1,6 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
+import java.util.List;
 import org.springframework.http.*;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,20 @@ public class PostController {
         }
     }
 
+    @GetMapping(value = "home/{userName}")
+    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("userName") String userName){
+        try{
+            List<PostDTO> p = postService.getHomePage(userName);
+            return new ResponseEntity<>(p, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<PostDTO> addPost(@RequestBody AddPostDTO postDTO){
         try {
-            PostDTO u = postService.save(postDTO);
+            PostDTO u = postService.save(postDTO,"brboric93");
             return new ResponseEntity<>(u, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
