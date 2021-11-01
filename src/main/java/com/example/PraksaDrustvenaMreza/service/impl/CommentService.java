@@ -1,6 +1,9 @@
 package com.example.PraksaDrustvenaMreza.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import com.example.PraksaDrustvenaMreza.model.*;
@@ -68,5 +71,16 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public void delete(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CommentDTO> findByPost(Long id) {
+        List<Comment> comments = commentRepository.findByPost_id(id);
+
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment c:comments){
+            commentDTOS.add(new CommentDTO(c));
+        }
+        return commentDTOS;
     }
 }

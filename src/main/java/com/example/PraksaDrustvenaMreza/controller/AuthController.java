@@ -5,6 +5,8 @@ import com.example.PraksaDrustvenaMreza.dtos.LoginDTO;
 import com.example.PraksaDrustvenaMreza.model.User;
 import com.example.PraksaDrustvenaMreza.security.TokenUtils;
 import com.example.PraksaDrustvenaMreza.service.impl.UserDetailServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
+@Api( tags = "Auth")
 @RequestMapping(value = "api/auth")
 public class AuthController {
 
@@ -39,6 +42,7 @@ public class AuthController {
     private UserDetailServiceImpl userDetailsService;
 
     @SuppressWarnings("unused")
+    @ApiOperation(value = "This method is used to login.")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO loginDTO) {
         System.out.println("\nLogin-------<<<<");
@@ -55,6 +59,7 @@ public class AuthController {
         }
     }
 
+    @ApiOperation(value = "This method is used to register.")
     @PostMapping(value = "/register")
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
         try {

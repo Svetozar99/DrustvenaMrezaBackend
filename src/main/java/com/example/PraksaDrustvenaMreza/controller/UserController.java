@@ -1,5 +1,7 @@
 package com.example.PraksaDrustvenaMreza.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
@@ -9,12 +11,14 @@ import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 import java.security.Principal;
 
 @RestController
+@Api( tags = "User")
 @RequestMapping(value = "api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "This method is used to get one user.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> getOneUser(@PathVariable("id") Long id){
         try{
@@ -25,6 +29,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "This method is used to show profile page.")
     @GetMapping(value = "/profile")
     public ResponseEntity<UserDTO> profile(Principal principal){
         UserDTO userDTO = userService.getOneByUserName(principal.getName());
@@ -36,6 +41,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "This method is used to update profile.")
     @PatchMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, Principal principal){
         UserDTO us = userService.getOneByUserName(principal.getName());
@@ -47,9 +53,10 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "This method is used to delete profile.")
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(){
-        UserDTO u = userService.getOneByUserName("a");
+    public ResponseEntity<Void> deleteUser(Principal principal){
+        UserDTO u = userService.getOneByUserName(principal.getName());
         try{
             userService.delete(u.getId());
             return new ResponseEntity<>(HttpStatus.OK);

@@ -2,6 +2,8 @@ package com.example.PraksaDrustvenaMreza.service;
 
 import com.example.PraksaDrustvenaMreza.dtos.*;
 
+import java.util.List;
+
 public interface CommentServiceInterface {
 
     public CommentDTO getOne(Long id);
@@ -11,4 +13,6 @@ public interface CommentServiceInterface {
     public CommentDTO update(CommentDTO commentDTO, Long id);
 
     public void delete(Long id);
+
+    public List<CommentDTO> findByPost(Long id);
 }
