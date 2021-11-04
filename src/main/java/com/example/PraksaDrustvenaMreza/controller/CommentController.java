@@ -13,7 +13,7 @@ import com.example.PraksaDrustvenaMreza.service.CommentServiceInterface;
 
 import java.security.Principal;
 import java.util.List;
-
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "Comment")
 @RequestMapping(value = "api/comment")

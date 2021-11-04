@@ -20,7 +20,7 @@ import org.springframework.security.core.Authentication;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
-
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "Auth")
 @RequestMapping(value = "api/auth")

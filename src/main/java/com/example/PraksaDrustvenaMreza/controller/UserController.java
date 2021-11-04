@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
 import java.security.Principal;
-
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "User")
 @RequestMapping(value = "api/user")

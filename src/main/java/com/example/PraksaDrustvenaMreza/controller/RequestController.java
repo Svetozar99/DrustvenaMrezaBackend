@@ -14,7 +14,7 @@ import com.example.PraksaDrustvenaMreza.service.RequestServiceInterface;
 
 import java.security.Principal;
 import java.util.List;
-
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "Request")
 @RequestMapping(value = "api/request")

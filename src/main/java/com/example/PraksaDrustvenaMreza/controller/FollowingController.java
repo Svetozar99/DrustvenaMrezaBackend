@@ -12,7 +12,7 @@ import com.example.PraksaDrustvenaMreza.dtos.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.FollowingServiceInterface;
-
+@CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "Following")
 @RequestMapping(value = "api/following")
