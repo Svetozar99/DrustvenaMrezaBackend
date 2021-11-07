@@ -33,24 +33,31 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public CommentDTO save(AddCommentDTO commentDTO, String userName) {
         Comment comment = new Comment();
-        Comment parentComment;
-        if(commentDTO.getParentComment() != null)
-             parentComment = commentRepository.findOneById(commentDTO.getParentComment());
-        else
-            parentComment = null;
         Post post = postRepository.findOneById(commentDTO.getPostId());
         User user = userRepository.findOneByUserName(userName);
-
-
         comment.setBodyComment(commentDTO.getBodyComment());
-        if(parentComment != null)
-            comment.setParentComment(parentComment.getId());
-        else
-            comment.setParentComment(null);
         comment.setCreatedAt(LocalDateTime.now());
         comment.setPost(post);
         comment.setUser(user);
+        comment.setComments(new ArrayList<>());
 
+        comment = commentRepository.save(comment);
+
+        return new CommentDTO(comment);
+    }
+
+    @Override
+    public CommentDTO addCommentOnComment(AddCommentOnCommentDTO commentDTO, String userName) {
+        Comment comment = new Comment();
+        Comment comment1 = commentRepository.findOneById(commentDTO.getCommentId());
+        User user = userRepository.findOneByUserName(userName);
+
+        comment.setBodyComment(commentDTO.getBodyComment());
+        comment.setCreatedAt(LocalDateTime.now());
+        comment.setPost(comment1.getPost());
+        comment.setComment(comment1);
+        comment.setUser(user);
+        comment.setComments(new ArrayList<>());
         comment = commentRepository.save(comment);
 
         return new CommentDTO(comment);

@@ -21,5 +21,4 @@ public class Post extends JpaEntity{
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
     private List<Comment> comments;
-
 }

@@ -32,6 +32,19 @@ public class CommentController {
             CommentDTO c = commentService.save(addCommentDTO, principal.getName());
             return new ResponseEntity<>(c, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(e.toString());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ApiOperation(value = "This method is used to add comment on comment.")
+    @PostMapping(value = "/comment-on-comment")
+    public ResponseEntity<CommentDTO> addCommentOnComment(@RequestBody AddCommentOnCommentDTO addCommentDTO, Principal principal) {
+        try {
+            CommentDTO c = commentService.addCommentOnComment(addCommentDTO, principal.getName());
+            return new ResponseEntity<>(c, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

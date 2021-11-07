@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 
+import com.example.PraksaDrustvenaMreza.model.Post;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.*;
@@ -24,25 +25,26 @@ public class PostController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "This method is used to get one post.")
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<PostDTO> getOnePost(@PathVariable("id") Long id){
-        try{
-            PostDTO p = postService.getOne(id);
-            return new ResponseEntity<>(p, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @ApiOperation(value = "This method is used to get one post.")
+//    @GetMapping(value = "/{id}")
+//    public ResponseEntity<PostDTO> getOnePost(@PathVariable("id") Long id){
+//        try{
+//            PostDTO p = postService.getOne(id);
+//            return new ResponseEntity<>(p, HttpStatus.OK);
+//        }catch (Exception e){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @ApiOperation(value = "This method is used to show home page.")
-    @GetMapping(value = "/home")
+    @GetMapping(value = "/home-page")
     public ResponseEntity<List<PostDTO>> getPosts(Principal principal){
         try{
             List<PostDTO> p = postService.getHomePage(principal.getName());
             return new ResponseEntity<>(p, HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.out.println(e.toString() + " greskaaaaaaaaaaaaaaaaaaa");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -53,6 +55,7 @@ public class PostController {
             PostDTO u = postService.save(postDTO,principal.getName());
             return new ResponseEntity<>(u, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

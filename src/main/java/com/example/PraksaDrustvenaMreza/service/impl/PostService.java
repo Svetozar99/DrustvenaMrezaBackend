@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Service;
 import com.example.PraksaDrustvenaMreza.dtos.*;
 import com.example.PraksaDrustvenaMreza.model.*;
@@ -20,6 +21,9 @@ public class PostService implements PostServiceInterface {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @Override
     public PostDTO getOne(Long id) {
         Post p = postRepository.findOneById(id);
@@ -34,6 +38,7 @@ public class PostService implements PostServiceInterface {
         p.setBody(DTO.getBody());
         p.setUser(u);
         p.setCreatedAt(LocalDateTime.now());
+        p.setComments(new ArrayList<>());
         p = postRepository.save(p);
 
         return new PostDTO(p);
@@ -59,7 +64,8 @@ public class PostService implements PostServiceInterface {
         List<Post> posts = postRepository.findHomePage(userName);
 
         List<PostDTO> postDTOS = new ArrayList<>();
-        for(Post p: posts){
+        for(Post p: posts) {
+            System.out.println(p.getComments() + " comeeentsss");
             postDTOS.add(new PostDTO(p));
         }
         return postDTOS;

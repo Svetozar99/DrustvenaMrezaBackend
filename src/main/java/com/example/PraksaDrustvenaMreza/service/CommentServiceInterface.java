@@ -10,6 +10,8 @@ public interface CommentServiceInterface {
 
     public CommentDTO save(AddCommentDTO commentDTO, String userName);
 
+    public CommentDTO addCommentOnComment(AddCommentOnCommentDTO commentDTO, String userName);
+
     public CommentDTO update(CommentDTO commentDTO, Long id);
 
     public void delete(Long id);

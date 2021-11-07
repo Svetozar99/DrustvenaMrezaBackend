@@ -13,11 +13,11 @@ public class AddCommentDTO {
 
     private Long postId;
 
-    private Long parentComment;
-
     private String bodyComment;
 
+    private CommentDTO commentDTO;
+
     public AddCommentDTO(Comment c){
-        this(c.getId(), c.getPost().getId(), c.getParentComment(), c.getBodyComment());
+        this(c.getId(), c.getPost().getId(), c.getBodyComment(), new CommentDTO(c.getComment()));
     }
 }

@@ -1,7 +1,10 @@
 package com.example.PraksaDrustvenaMreza.model;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="comment")
@@ -22,6 +25,10 @@ public class Comment extends JpaEntity{
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @Column(name = "parent_comment")
-    private Long parentComment;
+    @ManyToOne
+    @JoinColumn(name = "comment_id", referencedColumnName = "id",nullable = true)
+    private Comment comment;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "comment")
+    private List<Comment> comments;
 }

@@ -11,8 +11,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Post findOneById(Long id);
 
     @Query("SELECT p FROM Post p " +
-            "WHERE p.user.userName = :userName " +
+            "WHERE (p.user.userName = :userName " +
             "or p.user.id in (SELECT f.follower.id FROM Following f " +
-            "WHERE f.followee.userName = :userName)")
+            "WHERE f.followee.userName = :userName)) " )
     List<Post> findHomePage(String userName);
 }
