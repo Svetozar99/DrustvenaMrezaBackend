@@ -2,6 +2,8 @@ package com.example.PraksaDrustvenaMreza.service;
 
 import com.example.PraksaDrustvenaMreza.dtos.UserDTO;
 
+import java.util.List;
+
 public interface UserServiceInterface {
 
     public UserDTO getOne(Long id);
@@ -13,4 +15,6 @@ public interface UserServiceInterface {
     public UserDTO getOneByUserName(String userName);
 
     public void delete(Long id);
+
+    public List<UserDTO> search(String value);
 }

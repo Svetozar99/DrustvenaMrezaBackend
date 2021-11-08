@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.PraksaDrustvenaMreza.service.impl.UserService;
 
 import java.security.Principal;
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600, methods = {RequestMethod.POST, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH})
 @RestController
 @Api( tags = "User")
@@ -23,6 +25,17 @@ public class UserController {
     public ResponseEntity<UserDTO> getOneUser(@PathVariable("id") Long id){
         try{
             UserDTO u = userService.getOne(id);
+            return new ResponseEntity<>(u, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ApiOperation(value = "This method is used to show profile page.")
+    @GetMapping(value = "/search/{value}")
+    public ResponseEntity<List<UserDTO>> search(@PathVariable("value") String value){
+        List<UserDTO> u = userService.search(value);
+        try{
             return new ResponseEntity<>(u, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

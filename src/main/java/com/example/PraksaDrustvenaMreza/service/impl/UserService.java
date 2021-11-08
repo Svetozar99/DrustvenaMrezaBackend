@@ -3,6 +3,8 @@ package com.example.PraksaDrustvenaMreza.service.impl;
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,5 +74,17 @@ public class UserService implements UserServiceInterface {
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<UserDTO> search(String value) {
+        List<User> users = userRepository.search(value);
+        List<UserDTO> usersDTO = new ArrayList<>();
+
+        for(User u: users){
+            usersDTO.add(new UserDTO(u));
+        }
+
+        return usersDTO;
     }
 }
