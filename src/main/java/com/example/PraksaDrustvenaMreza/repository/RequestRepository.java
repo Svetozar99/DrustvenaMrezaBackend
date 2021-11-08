@@ -11,5 +11,7 @@ public interface RequestRepository extends JpaRepository<RequestForFollowing, Lo
 
     List<RequestForFollowing> findAllByReceiver_userName(String userName);
 
-    RequestForFollowing findOneByReceiver_userNameAndSender_userName(String userNameReceiver, String userNameSender);
+    RequestForFollowing findOneByReceiver_userNameAndSender_userName(String username, String username1);
+
+    List<RequestForFollowing> findAllBySender_userName(String userNameSender);
 }

@@ -10,6 +10,8 @@ public interface RequestServiceInterface {
 
     public List<RequestDTO> getRequests(String userName);
 
+    public List<RequestDTO> getRequest(String userNameSender);
+
     public RequestDTO save(String userNameReceiver, String userNameSender);
 
     public void delete(Long id);

@@ -29,7 +29,18 @@ public class RequestService implements RequestServiceInterface {
 
     @Override
     public List<RequestDTO> getRequests(String userName) {
-        List<RequestForFollowing> requests = requestRepository.findAllByReceiver_userName("brboric93");
+        List<RequestForFollowing> requests = requestRepository.findAllByReceiver_userName(userName);
+
+        List<RequestDTO> requestDTOS = new ArrayList<>();
+        for (RequestForFollowing r: requests){
+            requestDTOS.add(new RequestDTO(r));
+        }
+        return requestDTOS;
+    }
+
+    @Override
+    public List<RequestDTO> getRequest(String userNameSender) {
+        List<RequestForFollowing> requests = requestRepository.findAllBySender_userName(userNameSender);
 
         List<RequestDTO> requestDTOS = new ArrayList<>();
         for (RequestForFollowing r: requests){

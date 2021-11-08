@@ -29,6 +29,16 @@ public class RequestController {
     @Autowired
     private UserService userService;
 
+    @GetMapping(value = "/isend")
+    public ResponseEntity<List<RequestDTO>> getRequest(Principal principal){
+        try{
+            List<RequestDTO> request = requestService.getRequest(principal.getName());
+            return new ResponseEntity<>(request, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @ApiOperation(value = "This method is used to show requests.")
     @GetMapping
     public ResponseEntity<List<RequestDTO>> getRequests(Principal principal) {
